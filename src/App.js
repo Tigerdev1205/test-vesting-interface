@@ -98,7 +98,7 @@ const VestingInterface = () => {
       }
     };
     loadVestingInfo();
-  }, [account]);
+  }, [account, isAdmin]);
 
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -161,15 +161,18 @@ const VestingInterface = () => {
     const { recipient, cliffDuration, period, amount } = vestingData;
 
     if (!recipient || !cliffDuration || !period || !amount) {
+      setFormError("All fields are required.");
       handleSnackbarOpen("All fields are required.", "error");
       return false;
     }
 
     if (vestingType === "custom" && !vestingData.customPercentPerRelease) {
+      setFormError("Custom percent per release is required.");
       handleSnackbarOpen("Custom percent per release is required.", "error");
       return false;
     }
 
+    setFormError("");
     return true;
   };
 
